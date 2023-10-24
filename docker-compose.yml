@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      #run le dockerfile du backend
+      context: backend
+      dockerfile: Dockerfile
+    #le container créé s'apellera backend
+    container_name: backend
+    networks:
+      - app-network
+
+  database:
+    build:
+      # run le dockerfile de la database
+      context: database
+      dockerfile: Dockerfile
+    container_name: database
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: usr
+      POSTGRES_PASSWORD: pwd
+    #la base de données tourne sur le port 5432
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  httpd:
+    build:
+      #on run le dockerfile du frontend
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    #Le frontend est executé sur le port 81
+    ports:
+      - "81:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
