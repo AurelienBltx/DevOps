@@ -23,7 +23,25 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./backend
           # Note: tags has to be all lower-case
-          tags: ${{secrets.USER_DOCKER}}/tp-devops:latest
+          tags: ${{secrets.USER_DOCKER}}/tp-devops-backend:latest
+          push: ${{ github.ref == 'refs/heads/ci-cd' }}
+
+      - name: Build image and push database
+        uses: docker/build-push-action@v3
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./database
+          # Note: tags has to be all lower-case
+          tags: ${{secrets.USER_DOCKER}}/tp-devops-database:latest
+          push: ${{ github.ref == 'refs/heads/ci-cd' }}
+
+      - name: Build image and push frontend
+        uses: docker/build-push-action@v3
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./frontend
+          # Note: tags has to be all lower-case
+          tags: ${{secrets.USER_DOCKER}}/tp-devops-frontend:latest
           push: ${{ github.ref == 'refs/heads/ci-cd' }}
 
      #do the same with another action (actions/setup-java@v3) that enable to setup jdk 17
@@ -37,9 +55,3 @@ jobs:
       - name: Build and test with Maven
         working-directory: backend
         run: mvn clean verify
-#
-#      - name: Set up database
-#        uses: actions/postgres:14.1-alpine
-#        with:
-#
-#          distribution: 'adopt'
