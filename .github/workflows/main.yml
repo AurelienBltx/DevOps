@@ -11,7 +11,20 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
      #checkout your github code using actions/checkout@v2.5.0
-      - uses: actions/checkout@v2.5.0
+      - name: Checkout code
+        uses: actions/checkout@v2.5.0
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.USER_DOCKER }} -p ${{ secrets.TOKEN_DOCKER }}
+
+      - name: Build image and push backend
+        uses: docker/build-push-action@v3
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./backend
+          # Note: tags has to be all lower-case
+          tags: ${{secrets.USER_DOCKER}}/tp-devops:latest
+          push: ${{ github.ref == 'refs/heads/ci-cd' }}
 
      #do the same with another action (actions/setup-java@v3) that enable to setup jdk 17
       - name: Set up JDK 17
@@ -23,5 +36,10 @@ jobs:
      #finally build your app with the latest command
       - name: Build and test with Maven
         working-directory: backend
-        run: |
-          mvn clean verify
+        run: mvn clean verify
+#
+#      - name: Set up database
+#        uses: actions/postgres:14.1-alpine
+#        with:
+#
+#          distribution: 'adopt'
