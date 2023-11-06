@@ -1,9 +1,11 @@
 version: '3.7'
 
+#We define the services here.
 services:
+  #Backend service
   backend:
     build:
-      #run le dockerfile du backend
+      #run the Dockerfile of the backend
       context: backend
       dockerfile: Dockerfile
     #le container créé s'apellera backend
@@ -11,31 +13,34 @@ services:
     networks:
       - app-network
 
+  #Database service
   database:
     build:
-      # run le dockerfile de la database
+      # run the dockerfile of the database
       context: database
       dockerfile: Dockerfile
     container_name: database
     env_file:
       - .env
-    #la base de données tourne sur le port 5432
+    #the database runs on port 5432
     ports:
       - "5432:5432"
     networks:
       - app-network
 
+  #Proxy service
   httpd:
     build:
-      #on run le dockerfile du frontend
+      #run the Dockerfile of the proxy
       context: frontend
       dockerfile: Dockerfile
     container_name: frontend
-    #Le frontend est executé sur le port 81
+    #The proxy runs on port 81
     ports:
       - "81:80"
     networks:
       - app-network
 
+#We define a network to allow the containers to exchange data
 networks:
   app-network:
