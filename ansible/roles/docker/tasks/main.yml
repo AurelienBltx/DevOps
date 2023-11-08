@@ -1,3 +1,5 @@
+#In this file we install Docker on the server
+
 - name: Clean packages
   command:
     cmd: yum clean -y packages

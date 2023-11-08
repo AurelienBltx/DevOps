@@ -1,4 +1,5 @@
 - name: Run Database
+  #Creation of a Docker container with the image of the database.
   docker_container:
     name: database
     image: abourliatoux7/tp-devops-database:latest

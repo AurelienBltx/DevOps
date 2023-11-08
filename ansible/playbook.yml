@@ -2,7 +2,7 @@
   gather_facts: false
   become: yes
 
-  # Install Docker
+#5 roles will make sure to run every part of the application
   roles:
     - docker
     - network

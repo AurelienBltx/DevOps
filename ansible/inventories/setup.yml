@@ -1,7 +1,9 @@
 all:
   vars:
     ansible_user: centos
+    #path of the private key in the linux directory
     ansible_ssh_private_key_file: /home/abourliatoux/id_rsa
   children:
+    #server where the application will be deployed
     prod:
       hosts: aurelien.bourliatoux.takima.cloud

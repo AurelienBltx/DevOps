@@ -1,10 +1,11 @@
 - name: Run HTTPD
+  #Creation of a Docker container with the image of the proxy on the port 80.
   docker_container:
     name: httpd
     image: abourliatoux7/tp-devops-frontend:latest
     pull: true
     recreate: true
     ports:
-      - "81:80"
+      - "80:80"
     networks:
       - name: app-network

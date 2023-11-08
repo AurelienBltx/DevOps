@@ -1,3 +1,4 @@
+#We create the network with which the containers will exchange data
 - name: Create a Docker Network
   community.docker.docker_network:
     name: app-network

@@ -1,4 +1,5 @@
 - name: Run Backend
+  #Creation of a Docker container with the image of the backend.
   docker_container:
     name: backend
     image: abourliatoux7/tp-devops-backend:latest
